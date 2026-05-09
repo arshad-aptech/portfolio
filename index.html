@@ -5,11 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Syed Arshad Hussain - WordPress Developer Portfolio</title>
     
-    <!-- External Libraries -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- External Libraries (preload non-blocking) -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://unpkg.com">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" as="style" onload="this.rel='stylesheet'">
+    <noscript><link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"></noscript>
+
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" as="style" onload="this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"></noscript>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+
+    <link rel="preload" href="https://unpkg.com/aos@2.3.1/dist/aos.css" as="style" onload="this.rel='stylesheet'">
+    <noscript><link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"></noscript>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
     <style>
         :root {
@@ -329,6 +341,45 @@
             }
         }
 
+        /* Responsive helpers */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .brand-logo {
+            max-width: 140px;
+            height: auto;
+            display: block;
+        }
+
+        .nav-links-mobile {
+            display: none;
+        }
+
+        .nav-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            color: var(--primary-green);
+            font-size: 1.25rem;
+        }
+
+        @media (max-width: 767px) {
+            .nav-toggle { display: inline-flex; align-items: center; }
+            .nav-links-mobile { display: none; position: absolute; top: 64px; left: 0; right: 0; background: rgba(10,10,10,0.95); padding: 1rem; z-index: 60; }
+            .nav-links-mobile.open { display: block; }
+            .nav-links-mobile a { display: block; padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        }
+
         /* Navigation */
         .nav-link {
             position: relative;
@@ -437,7 +488,7 @@
         <div class="container mx-auto px-6 py-4">
             <div class="flex justify-between items-center">
                 <div class="text-2xl font-bold">
-                    <img src="img/sahlogo.png" width="100px" height="50px" alt="">
+                    <img src="img/sahlogo.png" class="brand-logo" alt="" loading="lazy">
                 </div>
                 <div class="hidden md:flex space-x-8">
                     <a href="#home" class="nav-link hover:text-green-400">Home</a>
@@ -447,6 +498,17 @@
                     <a href="#projects" class="nav-link hover:text-green-400">Projects</a>
                     <a href="#contact" class="nav-link hover:text-green-400">Contact</a>
                 </div>
+                <button class="nav-toggle md:hidden" id="navToggle" aria-label="Toggle menu">
+                    <i class="fas fa-bars text-green-400"></i>
+                </button>
+            </div>
+            <div class="nav-links-mobile md:hidden" id="navMobile">
+                <a href="#home" class="nav-link hover:text-green-400">Home</a>
+                <a href="#about" class="nav-link hover:text-green-400">About</a>
+                <a href="#skills" class="nav-link hover:text-green-400">Skills</a>
+                <a href="#experience" class="nav-link hover:text-green-400">Experience</a>
+                <a href="#projects" class="nav-link hover:text-green-400">Projects</a>
+                <a href="#contact" class="nav-link hover:text-green-400">Contact</a>
             </div>
         </div>
     </nav>
@@ -461,7 +523,7 @@
                         <span class="typing-text" id="typing-name">Syed Arshad Hussain</span>
                     </h1>
                     <p class="text-2xl md:text-4xl mb-8 text-green-400">
-                        <span class="typing-text" id="typing-role">WordPress Developer</span>
+                        <span class="typing-text" id="typing-role">CMS Developer</span>
                     </p>
                     <div class="flex justify-center space-x-4 mb-8">
                         <div class="contact-item flex items-center space-x-2">
@@ -484,7 +546,7 @@
                         </div>
                     </div>
                     <button class="glow-button morph-button px-8 py-4 rounded-lg text-black font-bold text-lg">
-                        View My Work
+                        What I’ve Built
                     </button>
                 </div>
             </div>
@@ -802,16 +864,30 @@
     </div>
 
     <!-- Scripts -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script defer src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
     <script>
-        // Initialize AOS
-        AOS.init({
-            duration: 1000,
-            once: true,
-            offset: 100
-        });
+        // Defer AOS initialization until window load (ensures deferred script is available)
+        function initAOSWhenReady() {
+            if (typeof AOS === 'undefined' || typeof AOS.init !== 'function') return;
+            AOS.init({ duration: 1000, once: true, offset: 100 });
+        }
+
+        // Mobile nav toggle
+        (function() {
+            const navToggle = document.getElementById('navToggle');
+            const navMobile = document.getElementById('navMobile');
+            if (navToggle && navMobile) {
+                navToggle.addEventListener('click', function() {
+                    if (navMobile.style.display === 'block') {
+                        navMobile.style.display = 'none';
+                    } else {
+                        navMobile.style.display = 'block';
+                    }
+                });
+                navMobile.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { navMobile.style.display = 'none'; }));
+            }
+        })();
 
         // Loading Animation
         window.addEventListener('load', function() {
@@ -819,6 +895,8 @@
                 document.getElementById('loader').classList.add('fade-out');
                 setTimeout(function() {
                     document.getElementById('loader').style.display = 'none';
+                    // Initialize AOS after loader removed
+                    initAOSWhenReady();
                 }, 500);
             }, 1500);
         });
@@ -846,109 +924,43 @@
             }, 2000);
         }, 2000);
 
-        // Particles.js Configuration
-        particlesJS('particles-js', {
-            particles: {
-                number: {
-                    value: 100,
-                    density: {
-                        enable: true,
-                        value_area: 800
-                    }
-                },
-                color: {
-                    value: '#00ff41'
-                },
-                shape: {
-                    type: 'circle',
-                    stroke: {
-                        width: 0,
-                        color: '#000000'
-                    }
-                },
-                opacity: {
-                    value: 0.5,
-                    random: false,
-                    anim: {
-                        enable: false,
-                        speed: 1,
-                        opacity_min: 0.1,
-                        sync: false
-                    }
-                },
-                size: {
-                    value: 3,
-                    random: true,
-                    anim: {
-                        enable: false,
-                        speed: 40,
-                        size_min: 0.1,
-                        sync: false
-                    }
-                },
-                line_linked: {
-                    enable: true,
-                    distance: 150,
-                    color: '#00ff41',
-                    opacity: 0.4,
-                    width: 1
-                },
-                move: {
-                    enable: true,
-                    speed: 2,
-                    direction: 'none',
-                    random: false,
-                    straight: false,
-                    out_mode: 'out',
-                    bounce: false,
-                    attract: {
-                        enable: false,
-                        rotateX: 600,
-                        rotateY: 1200
-                    }
-                }
-            },
-            interactivity: {
-                detect_on: 'canvas',
-                events: {
-                    onhover: {
-                        enable: true,
-                        mode: 'repulse'
+        // Lazy-load particles.js on non-mobile devices during idle time
+        (function() {
+            function initParticles() {
+                if (typeof particlesJS !== 'function') return;
+                particlesJS('particles-js', {
+                    particles: {
+                        number: { value: 40, density: { enable: true, value_area: 800 } },
+                        color: { value: '#00ff41' },
+                        shape: { type: 'circle', stroke: { width: 0, color: '#000' } },
+                        opacity: { value: 0.45 },
+                        size: { value: 3, random: true },
+                        line_linked: { enable: false },
+                        move: { enable: true, speed: 1.5, out_mode: 'out' }
                     },
-                    onclick: {
-                        enable: true,
-                        mode: 'push'
+                    interactivity: {
+                        detect_on: 'canvas',
+                        events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' }, resize: true },
+                        modes: { repulse: { distance: 150 }, push: { particles_nb: 2 } }
                     },
-                    resize: true
-                },
-                modes: {
-                    grab: {
-                        distance: 400,
-                        line_linked: {
-                            opacity: 1
-                        }
-                    },
-                    bubble: {
-                        distance: 400,
-                        size: 40,
-                        duration: 2,
-                        opacity: 8,
-                        speed: 3
-                    },
-                    repulse: {
-                        distance: 200,
-                        duration: 0.4
-                    },
-                    push: {
-                        particles_nb: 4
-                    },
-                    remove: {
-                        particles_nb: 2
-                    }
-                }
-            },
-            retina_detect: true
-        });
+                    retina_detect: true
+                });
+            }
+
+            function loadParticlesLibAndInit() {
+                var s = document.createElement('script');
+                s.src = 'https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js';
+                s.async = true;
+                s.onload = initParticles;
+                document.body.appendChild(s);
+            }
+
+            if (window.innerWidth > 767 && 'requestIdleCallback' in window) {
+                requestIdleCallback(loadParticlesLibAndInit, {timeout: 2000});
+            } else if (window.innerWidth > 767) {
+                setTimeout(loadParticlesLibAndInit, 1500);
+            }
+        })();
 
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
